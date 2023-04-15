@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Table from "./Table";
 import FormAddProcess from "./FormAddProcess";
 import { toast } from "react-toastify";
+import { ProcessContext } from "../context/ProcessContext";
+import { Link } from "react-router-dom";
 const Contain = () => {
-  const [processes, setProcesses] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const { processes, setProcesses } = useContext(ProcessContext);
 
   const deleteProcess = (id) => {
     toast.success("Se ha eliminado correctamente el proceso!", {
@@ -33,26 +36,22 @@ const Contain = () => {
           Agregar proceso
         </button>
       </div>
-      {(processes.length && (
-        <Table processes={processes} deleteProcess={deleteProcess} />
-      )) ||
-        null}
+      {(processes.length && <Table deleteProcess={deleteProcess} />) || null}
       <FormAddProcess
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
-        setProcesses={setProcesses}
       />
       {(processes.length && (
         <div className="flex justify-center">
-          <button
-            type="button"
+          <Link
+            to="/results"
             className="bg-red-500 text-white font-bold hover:bg-red-600 py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
             onClick={() => {
               setIsModalOpen(true);
             }}
           >
             Ejecutar Round Robin
-          </button>
+          </Link>
         </div>
       )) ||
         null}

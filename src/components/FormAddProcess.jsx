@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import Modal from "./shared/Modal";
 import { toast } from "react-toastify";
-const FormAddProcess = ({ setProcesses, isModalOpen, setIsModalOpen }) => {
+import { ProcessContext } from "../context/ProcessContext";
+
+const FormAddProcess = ({ isModalOpen, setIsModalOpen }) => {
+  const { processes, setProcesses } = useContext(ProcessContext);
   const [processInfo, setProcessInfo] = useState({
     id: uuidv4(),
     name: "",
@@ -44,7 +47,7 @@ const FormAddProcess = ({ setProcesses, isModalOpen, setIsModalOpen }) => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    setProcesses((prevState) => [...prevState, processInfo]);
+    setProcesses((prevProcesses) => [...prevProcesses, processInfo]);
     setProcessInfo({
       id: uuidv4(),
       name: "",
