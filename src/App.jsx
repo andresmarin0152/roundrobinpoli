@@ -1,14 +1,29 @@
-import { useState } from "react";
 import "./styles/App.css";
-
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import NotFound from "./pages/NotFoundPage";
+import Header from "./components/Header";
+import Contain from "./components/Contain";
+import ResultsPage from "./pages/ResultsPage";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import ProcessContextProvider from "./context/ProcessContext";
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <div className="App">
-      <h1 className="text-center text-lime-400">Round Robin</h1>
-      <p className="my-3">Ya pueden utilizar tailwindcss</p>
-    </div>
+    <>
+      <ToastContainer />
+      <Router>
+        <ProcessContextProvider>
+          <Header />
+          <Routes>
+            <Route path="/" element={<HomePage />}></Route>
+            <Route path="/roundrobin" element={<Contain />}></Route>
+            <Route path="/results" element={<ResultsPage />}></Route>
+            <Route path="*" element={<NotFound />}></Route>
+          </Routes>
+        </ProcessContextProvider>
+      </Router>
+    </>
   );
 }
 
